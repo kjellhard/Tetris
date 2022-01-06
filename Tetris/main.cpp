@@ -40,10 +40,10 @@ int main()
 
 	std::vector<std::vector<unsigned char>> matrix(COLUMNS, std::vector<unsigned char>(ROWS));
 
-	sf::RenderWindow window(sf::VideoMode(BLOCK_SIZE * COLUMNS * SCREEN_RESIZE, BLOCK_SIZE * ROWS * SCREEN_RESIZE), "Tetris", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(2* BLOCK_SIZE * COLUMNS * SCREEN_RESIZE, BLOCK_SIZE * ROWS * SCREEN_RESIZE), "Tetris", sf::Style::Close);
 	sf::Event event;
 
-	window.setView(sf::View(sf::FloatRect(0, 0, 2 * BLOCK_SIZE * COLUMNS, BLOCK_SIZE * ROWS)));
+	window.setView(sf::View(sf::FloatRect(0, 0, 2 *  BLOCK_SIZE * COLUMNS, BLOCK_SIZE * ROWS)));
 
 	std::random_device randomDevice;
 	std::default_random_engine randomEngine(randomDevice());
