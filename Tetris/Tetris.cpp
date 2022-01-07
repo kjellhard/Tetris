@@ -124,19 +124,25 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 		std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
 		std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
 		int prevY = p.y;
-		if (p.x > xMean)
+		if (p.x >= xMean)
+		{
 			p.y = yMean + p.x - xMean;
-		else if (p.x < xMean)
-			p.y = yMean - xMean + p.x;
-		else if (p.x == xMean)
-			p.y = yMean;
 
-		if (prevY > yMean)
-			p.x = xMean + prevY - yMean;
-		else if (prevY < yMean)
-			p.x = xMean - yMean + prevY;
-		else if (prevY == yMean)
-			p.x = xMean;
+			if (prevY >= yMean)
+				p.x = xMean - prevY + yMean;
+			else
+				p.x = xMean + yMean - prevY;
+		}
+
+		else
+		{
+			p.y = yMean - xMean + p.x;
+
+			if (prevY >= yMean)
+				p.x = xMean - prevY + yMean;
+			else if (prevY < yMean)
+				p.x = xMean + yMean - prevY;
+		}
 
 		std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
 		if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
@@ -265,21 +271,6 @@ std::vector<Position> Tetris::generate(unsigned char iColor, char x,  char y)
 			availablePos.push_back({ x1 , y1 - 1});
 			allPos[x1][y1-1] += 1;
 		}
-
-		/*auto it = availablePos.begin();
-		while (it != std::end(availablePos));
-		{
-			for (Position& p : output)
-			{
-				std::cout << static_cast<int>(p.x) <<" "<< static_cast<int>(p.y)<<"..."<< static_cast<int>((*it).x)<< static_cast<int>((*it).y) << "<- some x, y \n";
-				if (*it == p)
-				{
-					availablePos.erase(it);
-				}
-			}
-			it++;
-		}*/
-
 
 		std::uniform_int_distribution<size_t> dist(0, availablePos.size() - 1);
 		size_t nextPos = dist(randomEngine);
