@@ -119,42 +119,82 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 	int shiftX = 0;
 	int shiftY = 0;
 
-	for (Position& p : curr)
-	{
-		std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
-		std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
-		int prevY = p.y;
-		if (p.x >= xMean)
+	if (clockwise) {
+		for (Position& p : curr)
 		{
-			p.y = yMean + p.x - xMean;
+			std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
+			//std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
+			int prevY = p.y;
+			if (p.x >= xMean)
+			{
+				p.y = yMean + p.x - xMean;
 
-			if (prevY >= yMean)
-				p.x = xMean - prevY + yMean;
+				if (prevY >= yMean)
+					p.x = xMean - prevY + yMean;
+				else
+					p.x = xMean + yMean - prevY;
+			}
+
 			else
-				p.x = xMean + yMean - prevY;
-		}
+			{
+				p.y = yMean - xMean + p.x;
 
-		else
+				if (prevY >= yMean)
+					p.x = xMean - prevY + yMean;
+				else if (prevY < yMean)
+					p.x = xMean + yMean - prevY;
+			}
+
+			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
+			if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
+				shiftX = p.x - COLUMNS;
+			else if (p.x < 0 && shiftX >(p.x))
+				shiftX = p.x;
+
+			if (p.y > yMin && shiftY < (p.y - yMin))
+				shiftY = p.y - yMin;
+			if (p.y < 0 && shiftY < (0 - p.y))
+				shiftY = p.y;
+		}
+	}
+	else
+	{
+		for (Position& p : curr)
 		{
-			p.y = yMean - xMean + p.x;
+			//std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
+			//std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
+			int prevY = p.y;
+			if (p.x >= xMean)
+			{
+				p.y = yMean - p.x + xMean;
 
-			if (prevY >= yMean)
-				p.x = xMean - prevY + yMean;
-			else if (prevY < yMean)
-				p.x = xMean + yMean - prevY;
+				if (prevY >= yMean)
+					p.x = xMean + prevY - yMean;
+				else
+					p.x = xMean - yMean + prevY;
+			}
+
+			else
+			{
+				p.y = yMean + xMean - p.x;
+
+				if (prevY >= yMean)
+					p.x = xMean + prevY - yMean;
+				else if (prevY < yMean)
+					p.x = xMean - yMean + prevY;
+			}
+
+			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
+			if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
+				shiftX = p.x - COLUMNS;
+			else if (p.x < 0 && shiftX >(p.x))
+				shiftX = p.x;
+
+			if (p.y > yMin && shiftY < (p.y - yMin))
+				shiftY = p.y - yMin;
+			if (p.y < 0 && shiftY < (0 - p.y))
+				shiftY = p.y;
 		}
-
-		std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
-		if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
-			shiftX = p.x - COLUMNS;
-		else if (p.x < 0 && shiftX > (p.x))
-			shiftX = p.x;
-
-		if (p.y > yMin && shiftY < (p.y - yMin))
-			shiftY = p.y - yMin;
-		if (p.y < 0 && shiftY < (0 - p.y))
-			shiftY = p.y;
-		
 	}
 
 	if (shiftX != 0)
