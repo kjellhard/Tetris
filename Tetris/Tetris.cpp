@@ -155,8 +155,8 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			if (p.x == COLUMNS)
 				shiftX++;
 
-			if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
-				shiftX = p.x - COLUMNS;
+			if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
+				shiftX = p.x - (COLUMNS - 1);
 			if (p.x < 0 && shiftX >(p.x))
 				shiftX = p.x;
 
@@ -194,15 +194,17 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			}
 
 			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
-			if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
-				shiftX = p.x - COLUMNS;
-			else if (p.x < 0 && shiftX >(p.x))
+
+			if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
+				shiftX = p.x - (COLUMNS - 1);
+			else if (p.x < 0 && shiftX > (p.x))
 				shiftX = p.x;
 
 			if (p.y > yMin && shiftY < (p.y - yMin))
 				shiftY = p.y - yMin;
 			if (p.y < 0 && shiftY < (0 - p.y))
 				shiftY = p.y;
+
 		}
 	}
 
@@ -214,6 +216,7 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			{
 				p.x -= shiftX;
 				p.y += 2 - shiftY;
+				
 			}
 		}
 		else
@@ -221,6 +224,7 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			for (Position& p : curr)
 			{
 				p.x -= shiftX;
+
 			}
 		}
 	}
@@ -231,6 +235,7 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			p.y += 2 - shiftY;
 		}
 	}
+
 
 	blocks = curr;
 }
