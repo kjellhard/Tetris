@@ -236,6 +236,11 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 		}
 	}
 
+	for (Position& p : curr)
+	{
+		if (iMatrix[p.x][p.y] != 0)
+			return;
+	}
 
 	blocks = curr;
 }
