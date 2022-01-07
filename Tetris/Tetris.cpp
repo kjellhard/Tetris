@@ -113,13 +113,16 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			yMin = p.y;
 	}
 
-	int xMean = ceil((xMax + xMin) / 2);
-	int yMean = ceil((yMax + yMin) / 2);
+	int xMean = ((xMax + xMin) / 2);
+	int yMean = ((yMax + yMin) / 2);
+
+	std::cout << "x/y mean: " << xMean << ", " << yMean << '\n';
 
 	int shiftX = 0;
 	int shiftY = 0;
 
 	if (clockwise) {
+
 		for (Position& p : curr)
 		{
 			std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
@@ -146,9 +149,15 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			}
 
 			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
+
+			if ((xMax - xMin) >= (yMax - yMin))
+				p.x++;
+			if (p.x == COLUMNS)
+				shiftX++;
+
 			if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
 				shiftX = p.x - COLUMNS;
-			else if (p.x < 0 && shiftX >(p.x))
+			if (p.x < 0 && shiftX >(p.x))
 				shiftX = p.x;
 
 			if (p.y > yMin && shiftY < (p.y - yMin))
