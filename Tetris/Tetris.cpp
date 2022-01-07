@@ -94,7 +94,90 @@ void Tetris::right(const std::vector<std::vector<unsigned char>>& iMatrix)
 
 void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>>& iMatrix)
 {
+	std::vector<Position> curr = blocks;
+	int xMax, xMin, yMax, yMin;
+	xMax = -(COLUMNS * 2);
+	xMin = COLUMNS * 2;
+	yMax = -(ROWS * 2);
+	yMin = ROWS * 2;
 
+	for (Position& p : curr)
+	{
+		if (p.x > xMax)
+			xMax = p.x;
+		if (p.x < xMin)
+			xMin = p.x;
+		if (p.y > yMax)
+			yMax = p.y;
+		if (p.y < yMin)
+			yMin = p.y;
+	}
+
+	int xMean = ceil((xMax + xMin) / 2);
+	int yMean = ceil((yMax + yMin) / 2);
+
+	int shiftX = 0;
+	int shiftY = 0;
+
+	for (Position& p : curr)
+	{
+		std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
+		std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
+		int prevY = p.y;
+		if (p.x > xMean)
+			p.y = yMean + p.x - xMean;
+		else if (p.x < xMean)
+			p.y = yMean - xMean + p.x;
+		else if (p.x == xMean)
+			p.y = yMean;
+
+		if (prevY > yMean)
+			p.x = xMean + prevY - yMean;
+		else if (prevY < yMean)
+			p.x = xMean - yMean + prevY;
+		else if (prevY == yMean)
+			p.x = xMean;
+
+		std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
+		if (p.x > COLUMNS && shiftX < (p.x - COLUMNS))
+			shiftX = p.x - COLUMNS;
+		else if (p.x < 0 && shiftX > (p.x))
+			shiftX = p.x;
+
+		if (p.y > yMin && shiftY < (p.y - yMin))
+			shiftY = p.y - yMin;
+		if (p.y < 0 && shiftY < (0 - p.y))
+			shiftY = p.y;
+		
+	}
+
+	if (shiftX != 0)
+	{
+		if (shiftY != 0)
+		{
+			for (Position& p : curr)
+			{
+				p.x -= shiftX;
+				p.y += 2 - shiftY;
+			}
+		}
+		else
+		{
+			for (Position& p : curr)
+			{
+				p.x -= shiftX;
+			}
+		}
+	}
+	else if (shiftY != 0)
+	{
+		for (Position& p : curr)
+		{
+			p.y += 2 - shiftY;
+		}
+	}
+
+	blocks = curr;
 }
 
 void Tetris::updateMatrix(std::vector<std::vector<unsigned char>>& iMatrix)
