@@ -2,7 +2,7 @@
 constexpr unsigned char SCREEN_RESIZE = 3;
 constexpr unsigned char MOVE_SPEED = 4;
 constexpr unsigned char SOFT_DROP_SPEED = 4;
-constexpr unsigned char CLEAR_EFFECT_DURATION = 4;
+constexpr unsigned char CLEAR_EFFECT_DURATION = 8;
 constexpr unsigned char LINES_TO_INCREASE_SPEED = 2;
 
 extern unsigned char BLOCK_SIZE;

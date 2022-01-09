@@ -348,7 +348,8 @@ int main()
 					block.setPosition((p.x + COLUMNS - 1) * BLOCK_SIZE, (TETRIS_SIZE + p.y) * BLOCK_SIZE);
 					window.draw(block);
 				}
-				dispText(static_cast<unsigned short>(BLOCK_SIZE* (.5 + COLUMNS)), static_cast<unsigned short>(.5 * BLOCK_SIZE * ROWS), "Score: " + std::to_string(clearedLines) + "\nSpeed: " + std::to_string(32 / fallSpeed) + 'x', window);
+
+				dispText(static_cast<unsigned short>(BLOCK_SIZE* (.5 + COLUMNS)), static_cast<unsigned short>(.5 * BLOCK_SIZE * ROWS), "Score: " + std::to_string(clearedLines * ROWS) + "\nSpeed: " + std::to_string(32 / fallSpeed) + 'x', window);
 
 				window.display();
 			}

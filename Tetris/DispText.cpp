@@ -26,8 +26,8 @@ void dispText(unsigned short x, unsigned short y, const std::string& text, sf::R
 
 		else {
 			sprite.setPosition(charX, charY);
-			sprite.setTextureRect(sf::IntRect(charWidth * (c * 32), 0, charWidth, texture.getSize().y));
-
+			sprite.setTextureRect(sf::IntRect(charWidth * (c - 32), 0, charWidth, texture.getSize().y));
+			
 			charX += charWidth;
 
 			window.draw(sprite);
