@@ -318,7 +318,7 @@ int main()
 
 				for (unsigned char i = 0; i < COLUMNS; i++)
 				{
-					for (unsigned char j = 0; j < COLUMNS; j++)
+					for (unsigned char j = 0; j < ROWS; j++)
 					{
 						if (linesToClear[j])
 						{
@@ -330,6 +330,7 @@ int main()
 
 							block.setFillColor(sf::Color(255, 255, 255));
 							block.setPosition(floor(BLOCK_SIZE* (.5f + i) - .5f * clearBlockSize), floor(BLOCK_SIZE* (.5f + j) - .5f * clearBlockSize));
+							block.setSize(sf::Vector2f(clearBlockSize, clearBlockSize));
 
 							window.draw(block);
 						}

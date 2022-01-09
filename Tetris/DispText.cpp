@@ -11,7 +11,8 @@ void dispText(unsigned short x, unsigned short y, const std::string& text, sf::R
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	texture.loadFromFile("Font.png");
+	if(!texture.loadFromFile("Font.png"))
+		return;
 
 	charWidth = texture.getSize().x / 96;
 	sprite.setTexture(texture);
