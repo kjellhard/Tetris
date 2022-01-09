@@ -52,6 +52,8 @@ int main()
 
 	window.setView(sf::View(sf::FloatRect(0, 0, 2 *  BLOCK_SIZE * COLUMNS, BLOCK_SIZE * ROWS)));
 
+	window.requestFocus();
+
 	std::random_device randomDevice;
 	std::default_random_engine randomEngine(randomDevice());
 	std::uniform_int_distribution<unsigned short> colorDist(0, 6);
