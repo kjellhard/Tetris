@@ -15,7 +15,7 @@ public:
 	void drop(const std::vector<std::vector<unsigned char>>& iMatrix);
 	void left(const std::vector<std::vector<unsigned char>>& iMatrix);
 	void right(const std::vector<std::vector<unsigned char>>& iMatrix);
-	void rotate(bool clockwise, const std::vector<std::vector<unsigned char>>& iMatrix);
+	void rotate(const std::vector<std::vector<unsigned char>>& iMatrix);
 	void updateMatrix(std::vector<std::vector<unsigned char>>& iMatrix);
 
 	std::vector<Position> holoEnd(const std::vector<std::vector<unsigned char>>& iMatrix);

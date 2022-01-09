@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DispText.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DispText.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Tetris.h" />
   </ItemGroup>

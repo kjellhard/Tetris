@@ -92,7 +92,7 @@ void Tetris::right(const std::vector<std::vector<unsigned char>>& iMatrix)
 		p.x++;
 }
 
-void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>>& iMatrix)
+void Tetris::rotate(const std::vector<std::vector<unsigned char>>& iMatrix)
 {
 	std::vector<Position> curr = blocks;
 	int xMax, xMin, yMax, yMin;
@@ -113,128 +113,182 @@ void Tetris::rotate(bool clockwise, const std::vector<std::vector<unsigned char>
 			yMin = p.y;
 	}
 
-	int xMean = ((xMax + xMin) / 2);
-	int yMean = ((yMax + yMin) / 2);
+	int xMean = (xMax + xMin) / 2;
+	int yMean = (yMax + yMin) / 2;
 
-	std::cout << "x/y mean: " << xMean << ", " << yMean << '\n';
+	int xLength = (xMax - xMin) + 1;
+	int yLength = (yMax - yMin) + 1;
+
+	if (xLength == yLength && xLength * yLength == TETRIS_SIZE)
+		return;
 
 	int shiftX = 0;
 	int shiftY = 0;
 
-	if (clockwise) {
+	int newYMax = yMin;
+	int newYMin = yMax;
 
+	//if (clockwise) {
+
+	//	for (Position& p : curr)
+	//	{
+	//		//std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
+	//		//std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
+	//		int prevY = p.y;
+	//		p.y = yMean2 + p.x - xMean2;
+	//		p.x = xMean2 + yMean2 - prevY;
+
+	//		if ((p.y - (newYMax - yMax)) < 0)
+	//			return;
+
+	//		//if (p.x < newXMin)
+	//		//	newXMin = p.x;
+	//		//else if (p.x > newXMax)
+	//		//	newXMax = p.x;
+
+	//		if (p.y < newYMin)
+	//			newYMin = p.y;
+	//		else if (p.y > newYMax)
+	//			newYMax = p.y;
+
+	//		//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
+
+	//		//if (xLength > yLength)
+	//		//	p.x++;
+
+	//		/*if ((xMax - xMin) > (yMax - yMin))
+	//			p.x++;*/
+	//		if (p.x == COLUMNS)
+	//			shiftX++;
+
+	//		if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
+	//			shiftX = p.x - (COLUMNS - 1);
+	//		if (p.x < 0 && shiftX > (p.x))
+	//			shiftX = p.x;
+
+	//		/*if (p.y > yMin && shiftY < (p.y - yMin))
+	//			shiftY = p.y - yMin;
+	//		if (p.y < 0 && shiftY < (0 - p.y))
+	//			shiftY = p.y;*/
+	//			
+	//	}
+	//}
+
+	for (Position& p : curr)
+	{
+
+		int prevY = p.y;
+		p.y = yMean - p.x + xMean;
+		p.x = xMean + prevY - yMean;
+
+		if ((p.y - (newYMax - yMax)) < 0)
+			return;
+
+		if (p.y < newYMin)
+			newYMin = p.y;
+		else if (p.y > newYMax)
+			newYMax = p.y;
+
+		if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
+			shiftX = p.x - (COLUMNS - 1);
+		else if (p.x < 0 && shiftX >(p.x))
+			shiftX = p.x;
+	}
+
+	//if (newXMax > COLUMNS - 1)
+	//{
+	//	for (Position& p : curr)
+	//	{
+	//		p.x -= newXMax - (COLUMNS - 1);
+	//		p.y -= newYMax - yMax;
+	//	}
+	//}
+	//else if (newXMin < 0)
+	//{
+	//	for (Position& p : curr)
+	//	{
+	//		p.x -= newXMin;
+	//		p.y -= newYMax - yMax;
+	//	}
+	//}
+	//else if (yLength < xLength)
+	//{
+	//	if (xMin - newXMin == yLength - xLength)
+	//	{
+	//		for (Position& p : curr)
+	//		{
+	//			p.x += (xMin - newXMin) / 2;
+	//			p.y -= newYMax - yMax;
+	//		}
+	//	}
+	//	else if (newXMax - xMax == yLength - xLength)
+	//	{
+	//		for (Position& p : curr)
+	//		{
+	//			p.x -= (newXMax - xMax) / 2;
+	//			p.y -= newYMax - yMax;
+	//		}
+	//	}
+	//	else
+	//		for (Position& p : curr)
+	//		{
+	//			p.y -= newYMax - yMax;
+	//		}
+	//}
+	//else
+	//{
+	//	for (Position& p : curr)
+	//	{
+	//		p.y -= newYMax - yMax;
+	//	}
+	//}
+
+	
+	if (newYMax < yMax)
+	{
 		for (Position& p : curr)
 		{
-			std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
-			//std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
-			int prevY = p.y;
-			if (p.x >= xMean)
-			{
-				p.y = yMean + p.x - xMean;
-
-				if (prevY >= yMean)
-					p.x = xMean - prevY + yMean;
-				else
-					p.x = xMean + yMean - prevY;
-			}
-
-			else
-			{
-				p.y = yMean - xMean + p.x;
-
-				if (prevY >= yMean)
-					p.x = xMean - prevY + yMean;
-				else if (prevY < yMean)
-					p.x = xMean + yMean - prevY;
-			}
-
-			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
-
-			if ((xMax - xMin) >= (yMax - yMin))
-				p.x++;
-			if (p.x == COLUMNS)
-				shiftX++;
-
-			if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
-				shiftX = p.x - (COLUMNS - 1);
-			if (p.x < 0 && shiftX >(p.x))
-				shiftX = p.x;
-
-			if (p.y > yMin && shiftY < (p.y - yMin))
-				shiftY = p.y - yMin;
-			if (p.y < 0 && shiftY < (0 - p.y))
-				shiftY = p.y;
+			p.x -= shiftX;
+			p.y -= newYMax - yMax;
 		}
 	}
 	else
 	{
 		for (Position& p : curr)
 		{
-			//std::cout << "Old X/Y: " << p.x << ", " << p.y << '\n';
-			//std::cout << "Mean X/Y: " << xMean << ", " << yMean << '\n';
-			int prevY = p.y;
-			if (p.x >= xMean)
-			{
-				p.y = yMean - p.x + xMean;
-
-				if (prevY >= yMean)
-					p.x = xMean + prevY - yMean;
-				else
-					p.x = xMean - yMean + prevY;
-			}
-
-			else
-			{
-				p.y = yMean + xMean - p.x;
-
-				if (prevY >= yMean)
-					p.x = xMean + prevY - yMean;
-				else if (prevY < yMean)
-					p.x = xMean - yMean + prevY;
-			}
-
-			//std::cout << "New X/Y: " << p.x << ", " << p.y << '\n';
-
-			if (p.x > COLUMNS - 1 && shiftX < (p.x - (COLUMNS - 1)))
-				shiftX = p.x - (COLUMNS - 1);
-			else if (p.x < 0 && shiftX > (p.x))
-				shiftX = p.x;
-
-			if (p.y > yMin && shiftY < (p.y - yMin))
-				shiftY = p.y - yMin;
-			if (p.y < 0 && shiftY < (0 - p.y))
-				shiftY = p.y;
-
+			p.x -= shiftX;
+			p.y -= newYMax - yMax;
 		}
 	}
 
-	if (shiftX != 0)
-	{
-		if (shiftY != 0)
-		{
-			for (Position& p : curr)
-			{
-				p.x -= shiftX;
-				p.y += 2 - shiftY;
-				
-			}
-		}
-		else
-		{
-			for (Position& p : curr)
-			{
-				p.x -= shiftX;
+	//if (shiftX != 0)
+	//{
+	//	if (newYMax < yMax)
+	//	{
+	//		for (Position& p : curr)
+	//		{
+	//			p.x -= shiftX;
+	//			p.y += newYMax - yMax;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		for (Position& p : curr)
+	//		{
+	//			p.x -= shiftX;
+	//			p.y -= newYMax - yMax;
+	//		}
+	//	}
 
-			}
-		}
-	}
-	else if (shiftY != 0)
-	{
-		for (Position& p : curr)
-		{
-			p.y += 2 - shiftY;
-		}
-	}
+	//}
+
+	//else if (shiftY != 0)
+	//{
+	//	for (Position& p : curr)
+	//	{
+	//		p.y += 2 - shiftY;
+	//	}
+	//}
 
 	for (Position& p : curr)
 	{
@@ -352,6 +406,6 @@ std::vector<Position> Tetris::generate(unsigned char iColor, char x,  char y)
 		for (Position& p : output)
 			p.y -= minY;
 	}
-	blocks = output;
+	//blocks = output;
 	return output;
 }

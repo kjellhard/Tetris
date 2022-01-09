@@ -1,14 +1,14 @@
-#pragma once
-constexpr unsigned char COLUMNS = 10;
-constexpr unsigned char ROWS = 20;
-constexpr unsigned char SCREEN_RESIZE = 4;
+#pragma once 
+constexpr unsigned char SCREEN_RESIZE = 3;
 constexpr unsigned char MOVE_SPEED = 4;
 constexpr unsigned char SOFT_DROP_SPEED = 4;
-constexpr unsigned char CLEAR_EFFECT_DURATION = 8;
-constexpr unsigned char LINES_TO_INCREASE_SPEED = 4;
+constexpr unsigned char CLEAR_EFFECT_DURATION = 4;
+constexpr unsigned char LINES_TO_INCREASE_SPEED = 2;
 
 extern unsigned char BLOCK_SIZE;
 extern unsigned TETRIS_SIZE;
+extern unsigned char COLUMNS;
+extern unsigned char ROWS;
 
 constexpr unsigned short FRAME_DURATION = 16667;
 

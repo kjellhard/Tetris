@@ -3,6 +3,7 @@
 #include <random>
 #include "Globals.h"
 #include "Tetris.h"
+#include "DispText.h"
 #include <iostream>
 
 
@@ -25,20 +26,26 @@ int main()
 	unsigned char nextColor;
 
 	std::vector<sf::Color> colors = {
-		sf::Color(36, 36, 85),
-		sf::Color(0, 219, 255),
-		sf::Color(0, 36, 255),
-		sf::Color(255, 146, 0),
-		sf::Color(255, 219, 0),
-		sf::Color(0, 219, 0),
-		sf::Color(146, 0, 255),
-		sf::Color(219, 0, 0),
+		sf::Color(128, 128, 128),
+		sf::Color(0, 255, 255),
+		sf::Color(0, 0, 255),
+		sf::Color(255, 127, 0),
+		sf::Color(255, 255, 0),
+		sf::Color(0, 255, 0),
+		sf::Color(128, 0, 128),
+		sf::Color(255, 0, 0),
 		sf::Color(73, 73, 85)
 	};
+
+	std::cout << "ANGE ANTAL BLOCK FÖR ATT BYGGA TETRIS: \n";
+	std::cin >> TETRIS_SIZE;
+	ROWS = TETRIS_SIZE * 5;
+	COLUMNS = ROWS / 2;
 
 	std::vector<bool> linesToClear(ROWS, 0);
 
 	std::vector<std::vector<unsigned char>> matrix(COLUMNS, std::vector<unsigned char>(ROWS));
+
 
 	sf::RenderWindow window(sf::VideoMode(2* BLOCK_SIZE * COLUMNS * SCREEN_RESIZE, BLOCK_SIZE * ROWS * SCREEN_RESIZE), "Tetris", sf::Style::Close);
 	sf::Event event;
@@ -52,7 +59,11 @@ int main()
 
 	Tetris tetris(nextColor, matrix);
 
+	nextShape = tetris.generate(nextColor, COLUMNS / 2, 1);
+
+
 	std::chrono::time_point<std::chrono::steady_clock> prevTime = std::chrono::steady_clock::now();
+
 
 	while (window.isOpen())
 	{
@@ -112,12 +123,14 @@ int main()
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 						{
 							rotate = 1;
-							tetris.rotate(true, matrix);
+							tetris.rotate(matrix);
+							tetris.rotate(matrix);
+							tetris.rotate(matrix);
 						}
 						else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 						{
 							rotate = 1;
-							tetris.rotate(false, matrix);
+							tetris.rotate(matrix);
 						}
 					}
 
@@ -185,7 +198,7 @@ int main()
 									linesToClear[i] = 1;
 
 									if (clearedLines % LINES_TO_INCREASE_SPEED == 0)
-										fallSpeed = std::max<unsigned char>(SOFT_DROP_SPEED, fallSpeed - 1);
+										fallSpeed = std::max<unsigned char>(SOFT_DROP_SPEED, fallSpeed - 2);
 								}
 							}
 
@@ -195,8 +208,8 @@ int main()
 								if(gameOver)
 									std::cout << "LOST OMEGALUL\n";
 
-								nextColor = static_cast<unsigned char>(colorDist(randomEngine));
 								nextShape = tetris.generate(nextColor, COLUMNS / 2, 1);
+								nextColor = static_cast<unsigned char>(colorDist(randomEngine));
 							}
 						}
 						fallTime = 0;
@@ -244,8 +257,8 @@ int main()
 					}
 
 					gameOver = !tetris.reset(nextShape, matrix);
-					nextColor = static_cast<unsigned char>(colorDist(randomEngine));
 					nextShape = tetris.generate(nextColor, COLUMNS / 2, 1);
+					nextColor = static_cast<unsigned char>(colorDist(randomEngine));
 
 					std::fill(linesToClear.begin(), linesToClear.end(), 0);
 				}
@@ -257,10 +270,10 @@ int main()
 
 				sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE - 1, BLOCK_SIZE - 1));
 
-				sf::RectangleShape previewBox(sf::Vector2f(5 * BLOCK_SIZE, 5 * BLOCK_SIZE));
+				sf::RectangleShape previewBox(sf::Vector2f((TETRIS_SIZE * 2 - 1) * BLOCK_SIZE, (TETRIS_SIZE * 2 - 1) * BLOCK_SIZE) );
 				previewBox.setFillColor(sf::Color(0, 0, 0));
 				previewBox.setOutlineThickness(-1);
-				previewBox.setPosition(BLOCK_SIZE* (1.5f * COLUMNS - 2.5f), BLOCK_SIZE* (0.25f * ROWS - 2.5f));
+				previewBox.setPosition(BLOCK_SIZE * (COLUMNS + TETRIS_SIZE *.25), BLOCK_SIZE * 2);
 
 				window.clear();
 
@@ -328,7 +341,14 @@ int main()
 
 				window.draw(previewBox);
 
-				//TODO draw next for(Position& p : nextShape)
+				//TODO draw next 
+
+				for (Position& p : nextShape)
+				{
+					block.setPosition((p.x + COLUMNS - 1) * BLOCK_SIZE, (TETRIS_SIZE + p.y) * BLOCK_SIZE);
+					window.draw(block);
+				}
+				dispText(static_cast<unsigned short>(BLOCK_SIZE* (.5 + COLUMNS)), static_cast<unsigned short>(.5 * BLOCK_SIZE * ROWS), "Score: " + std::to_string(clearedLines) + "\nSpeed: " + std::to_string(32 / fallSpeed) + 'x', window);
 
 				window.display();
 			}
