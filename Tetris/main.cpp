@@ -349,7 +349,10 @@ int main()
 					window.draw(block);
 				}
 
-				dispText(static_cast<unsigned short>(BLOCK_SIZE* (.5 + COLUMNS)), static_cast<unsigned short>(.5 * BLOCK_SIZE * ROWS), "Score: " + std::to_string(clearedLines * ROWS) + "\nSpeed: " + std::to_string(32 / fallSpeed) + 'x', window);
+				float speed = 32.f / static_cast<float>(fallSpeed);
+				std::string buffer(5, '\0');
+				std::snprintf(&buffer.front(), buffer.size(), "%.2f", speed);
+				dispText(static_cast<unsigned short>(BLOCK_SIZE* (COLUMNS)), static_cast<unsigned short>(.5 * BLOCK_SIZE * ROWS), "Score: " + std::to_string(clearedLines * ROWS) + "\nSpeed: " + buffer + 'x', window);
 
 				window.display();
 			}

@@ -28,8 +28,8 @@ void dispText(unsigned short x, unsigned short y, const std::string& text, sf::R
 			sprite.setPosition(charX, charY);
 			sprite.setTextureRect(sf::IntRect(charWidth * (c - 32), 0, charWidth, texture.getSize().y));
 			
-			charX += charWidth;
-
+			charX += charWidth*.75;
+			sprite.setScale(.7, .7);
 			window.draw(sprite);
 		}		
 	}
