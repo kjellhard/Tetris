@@ -16,10 +16,12 @@ pipeline{
         stage("Generation"){
             steps{
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
+                {
                     bat """
                     cd Tetris
                     Test.exe Generation
                     """
+                }
             }
             
         }
