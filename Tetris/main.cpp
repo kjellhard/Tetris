@@ -5,7 +5,9 @@
 #include "Tetris.h"
 #include "DispText.h"
 #include <iostream>
+#include <Windows.h>
 
+#pragma execution_character_set( "utf-8" )
 
 int main()
 {
@@ -37,8 +39,12 @@ int main()
 		sf::Color(73, 73, 85)
 	};
 
-	std::cout << "ANGE ANTAL BLOCK FÖR ATT BYGGA TETRIS: \n";
-	std::cin >> TETRIS_SIZE;
+	//SetConsoleOutputCP(CP_UTF8);
+	//std::cout << "ANGE ANTAL BLOCK FÖR ATT BYGGA TETRIS: \n";
+	//std::cin >> TETRIS_SIZE;
+
+	TETRIS_SIZE = 4;
+
 	ROWS = TETRIS_SIZE * 5;
 	COLUMNS = ROWS / 2;
 
