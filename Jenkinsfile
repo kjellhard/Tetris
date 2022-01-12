@@ -4,9 +4,9 @@ pipeline{
         stage("hello"){
             steps{
                 bat """
-                cd HelloWorld
-                del /f HelloWorld.exe
-                g++ main.cpp -o HelloWorld.exe
+                cd Tetris
+                del /f Tetris.exe
+                g++ main.cpp -o Tetris.exe
                 """
                 
             }
