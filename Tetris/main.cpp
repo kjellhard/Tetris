@@ -9,6 +9,10 @@
 
 #pragma execution_character_set( "utf-8" )
 
+#ifndef TESTING
+
+
+
 int main()
 {
 	unsigned int lag = 0;
@@ -371,3 +375,4 @@ int main()
 
 	return 0;
 }
+#endif // !TESTING
