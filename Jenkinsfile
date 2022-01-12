@@ -6,7 +6,7 @@ pipeline{
                 bat """
                 cd Tetris
                 del /f Tetris.exe
-                g++ main.cpp -o Tetris.exe
+                main.cpp Tetris.cpp DispText.cpp Globals.cpp -o Tetris.exe -I"../mingw-include/" -L "../mingw-lib/" -l "sfml-graphics" -l "sfml-window" -l "sfml-system"
                 """
                 
             }
