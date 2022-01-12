@@ -4,14 +4,19 @@ pipeline{
         stage("hello"){
             steps{
                 bat """
-                dir
+                cd HelloWorld
+                del /f HelloWorld.exe
+                g++ main.cpp -o HelloWorld.exe
                 """
                 
             }
         }
         stage("second"){
             steps{
-                echo "hej" 
+                bat """
+                cd HelloWorld
+                HelloWorld.exe
+                """
             }
             
         }
