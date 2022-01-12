@@ -3,7 +3,7 @@
 #include "Globals.h"
 #include <iostream>
 
-#ifndef TESTING
+#ifdef TESTING
 
 int main(int argc, char**argv)
 {
