@@ -15,10 +15,11 @@ pipeline{
         }
         stage("Generation"){
             steps{
-                bat """
-                cd Tetris
-                Test.exe Generation
-                """
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
+                    bat """
+                    cd Tetris
+                    Test.exe Generation
+                    """
             }
             
         }
