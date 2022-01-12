@@ -1,28 +1,33 @@
 pipeline{
     agent any
     stages{
-        stage("hello"){
+        stage("Compilation"){
             steps{
                 bat """
                 cd Tetris
+                del /f Test.exe
                 del /f Tetris.exe
-                g++ main.cpp Tetris.cpp DispText.cpp Globals.cpp -o Tetris.exe -I"../mingw-include/" -L "../mingw-lib/" -l "sfml-graphics" -l "sfml-window" -l "sfml-system"
+                g++ *.cpp -o Tetris.exe -I"../mingw-include/" -L "../mingw-lib/" -l "sfml-graphics" -l "sfml-window" -l "sfml-system"
+                g++ *.cpp -D TESTING -o Test.exe -I"../mingw-include/" -L "../mingw-lib/" -l "sfml-graphics" -l "sfml-window" -l "sfml-system"
                 """
                 
             }
         }
-        stage("second"){
+        stage("Generation"){
             steps{
                 bat """
-                cd HelloWorld
-                HelloWorld.exe
+                cd Tetris
+                Test.exe Generation
                 """
             }
             
         }
-        stage("third"){
+        stage("Rotation"){
             steps {
-                      echo "This > app.sh"
+                bat """
+                cd Tetris
+                Test.exe Generation
+                """
                 }
             }
         }
