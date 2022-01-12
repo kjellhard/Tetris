@@ -29,7 +29,7 @@ pipeline{
             steps {
                 bat """
                 cd Tetris
-                Test.exe Generation
+                Test.exe Rotation
                 """
                 }
             }
