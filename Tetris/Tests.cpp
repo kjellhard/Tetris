@@ -50,6 +50,7 @@ int main(int argc, char**argv)
 	else
 		return 1;
 
+	std::cout << "TEST PASSED\n"
 	return 0;
 }
 #endif // TESTING
