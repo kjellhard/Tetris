@@ -24,7 +24,7 @@ int main(int argc, char**argv)
 
 	if (arg == "Generation")
 	{
-		return 1;
+		//return 1;
 		for (int i = 0; i < 1000; i++)
 		{
 			std::vector<Position> test = tetris.generate(3, COLUMNS / 2, 1);
