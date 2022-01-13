@@ -1,6 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include "DispText.h"
-
+/// <summary>
+/// Displays text.
+/// </summary>
+/// <param name="x">Starting X position to display at.</param>
+/// <param name="y">Starting Y position to display at.</param>
+/// <param name="text">The text to display.</param>
+/// <param name="window">The window where the text should be displayed.</param>
 void dispText(unsigned short x, unsigned short y, const std::string& text, sf::RenderWindow& window)
 {
 	short charX = x;

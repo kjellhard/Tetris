@@ -1,3 +1,11 @@
+/*!
+* Projekt i Programmeringsmetodik
+* \author Isak Kjellhard
+* \version 1.0
+* \date 2022-01-13
+* Dynamic Tetris where the number of blocks to create the Tetris can be changed.
+*/
+
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include <random>
@@ -12,7 +20,9 @@
 #ifndef TESTING
 
 
-
+/// <summary>
+/// Starts the game.
+/// </summary>
 int main()
 {
 	unsigned int lag = 0;
@@ -77,15 +87,21 @@ int main()
 	std::chrono::time_point<std::chrono::steady_clock> prevTime = std::chrono::steady_clock::now();
 
 
+	//Runs while the window is open.
 	while (window.isOpen())
 	{
+		//Difference between time frames.
 		unsigned diffTime = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - prevTime).count();
+		//Add difference to lag.
 		lag += diffTime;
 		prevTime += std::chrono::microseconds(diffTime);
 
+		//While the lag is more than the maximum allowed frame duration.
 		while (FRAME_DURATION <= lag)
 		{
 			lag -= FRAME_DURATION;
+
+			//Check the different events.
 			while (window.pollEvent(event))
 			{
 				switch (event.type)
@@ -128,6 +144,7 @@ int main()
 
 			if (clearTimer == 0)
 			{
+				//Do stuff based on inputs and stuff.
 				if (!gameOver)
 				{
 					if (!rotate)
@@ -185,8 +202,10 @@ int main()
 					else
 						dropTime = (dropTime + 1) % SOFT_DROP_SPEED;
 
+
 					if (fallSpeed == fallTime)
 					{
+						//If the Tetris can't move down we have to do stuff before resetting timer.
 						if (!tetris.down(matrix))
 						{
 							tetris.updateMatrix(matrix);
@@ -229,6 +248,8 @@ int main()
 					else
 						fallTime++;
 				}
+
+				//Enter to reset when game is over.
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				{
 					gameOver = 0;
@@ -246,6 +267,8 @@ int main()
 					}
 				}
 			}
+
+			//Clearing some rows if possible.
 			else
 			{
 				clearTimer--;
@@ -276,8 +299,10 @@ int main()
 				}
 			}
 
+			//Displaying the game
 			if (FRAME_DURATION > lag)
 			{
+				//Fancy stuff for the clear effect.
 				unsigned char clearBlockSize = static_cast<unsigned char>(2 * round(.5f * BLOCK_SIZE * (clearTimer / static_cast<float>(CLEAR_EFFECT_DURATION))));
 
 				sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE - 1, BLOCK_SIZE - 1));
@@ -289,6 +314,7 @@ int main()
 
 				window.clear();
 
+				//Display the matrix.
 				for (unsigned char i = 0; i < COLUMNS; i++)
 				{
 					for (unsigned char j = 0; j < ROWS; j++)
@@ -311,6 +337,7 @@ int main()
 
 				if (!gameOver)
 				{
+					//Display the holo endpoint.
 					for (Position& p : tetris.holoEnd(matrix))
 					{
 						block.setPosition(static_cast<float>(BLOCK_SIZE* p.x), static_cast<float>(BLOCK_SIZE* p.y));
@@ -321,6 +348,7 @@ int main()
 					block.setFillColor(colors[1 + tetris.getColor()]);
 				}
 
+				//Display the Tetris.
 				for (Position& p : tetris.getBlocks())
 				{
 					block.setPosition(static_cast<float>(BLOCK_SIZE* p.x), static_cast<float>(BLOCK_SIZE* p.y));
@@ -328,6 +356,7 @@ int main()
 					window.draw(block);
 				}
 
+				//Display the clear effect.
 				for (unsigned char i = 0; i < COLUMNS; i++)
 				{
 					for (unsigned char j = 0; j < ROWS; j++)
@@ -354,7 +383,7 @@ int main()
 
 				window.draw(previewBox);
 
-				//TODO draw next 
+				//Display the next shape inside the preview window. 
 
 				for (Position& p : nextShape)
 				{
@@ -362,6 +391,7 @@ int main()
 					window.draw(block);
 				}
 
+				//Display the score and fall speed.
 				float speed = 32.f / static_cast<float>(fallSpeed);
 				std::string buffer(5, '\0');
 				std::snprintf(&buffer.front(), buffer.size(), "%.2f", speed);
