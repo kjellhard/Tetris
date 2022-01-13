@@ -25,7 +25,7 @@
 /// </summary>
 int main()
 {
-	unsigned int lag = 0
+	unsigned int lag = 0;
 	unsigned int clearedLines = 0;
 
 	bool gameOver = 0;
