@@ -25,7 +25,7 @@
 /// </summary>
 int main()
 {
-	unsigned int lag = 0;
+	unsigned int lag = 0
 	unsigned int clearedLines = 0;
 
 	bool gameOver = 0;
@@ -54,7 +54,7 @@ int main()
 	};
 
 	//SetConsoleOutputCP(CP_UTF8);
-	//std::cout << "ANGE ANTAL BLOCK FÖR ATT BYGGA TETRIS: \n";
+	//std::cout << "ANGE ANTAL BLOCK FÃ–R ATT BYGGA TETRIS: \n";
 	//std::cin >> TETRIS_SIZE;
 
 	TETRIS_SIZE = 4;
