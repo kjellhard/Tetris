@@ -7,7 +7,7 @@
 
 int main(int argc, char**argv)
 {
-	TETRIS_SIZE = 4;
+	TETRIS_SIZE = 4
 
 	ROWS = TETRIS_SIZE * 5;
 	COLUMNS = ROWS / 2;
