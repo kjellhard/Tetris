@@ -15,7 +15,7 @@ pipeline{
         }
         stage("Generation"){
             steps{
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE')
                 {
                     bat """
                     cd Tetris
